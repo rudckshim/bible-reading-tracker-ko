@@ -161,7 +161,7 @@ export default function App() {
 
             <div className="flex items-center justify-between gap-3">
 
-              <p className="text-[clamp(0.58rem,2.4vw,0.875rem)] font-medium leading-none text-slate-500">
+              <p className="text-[clamp(0.82rem,3vw,1.15rem)] font-medium leading-none text-slate-500">
                 {TEXTS.appName}
               </p>
 
