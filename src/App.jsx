@@ -191,8 +191,8 @@ export default function App() {
                   type="button"
                   onClick={() => changeSize("small")}
                   className={`rounded-2xl px-3 py-2 text-sm font-semibold transition ${sizeMode === "small"
-                      ? "bg-slate-800 text-white"
-                      : "bg-slate-100 text-slate-600"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-600"
                     }`}
                 >
                   작게
@@ -202,8 +202,8 @@ export default function App() {
                   type="button"
                   onClick={() => changeSize("large")}
                   className={`rounded-2xl px-3 py-2 text-sm font-semibold transition ${sizeMode === "large"
-                      ? "bg-slate-800 text-white"
-                      : "bg-slate-100 text-slate-600"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-600"
                     }`}
                 >
                   크게
@@ -308,8 +308,8 @@ export default function App() {
                                       toggleChapter(book.index, chapter)
                                     }
                                     className={`relative flex aspect-square w-full items-center justify-center rounded-full border-[clamp(1px,0.45vw,2px)] font-bold transition ${sizeMode === "large"
-                                        ? "text-[clamp(0.95rem,4vw,1.4rem)]"
-                                        : "text-[clamp(0.62rem,2.9vw,0.95rem)]"
+                                      ? "text-[clamp(0.95rem,4vw,1.4rem)]"
+                                      : "text-[clamp(0.62rem,2.9vw,0.95rem)]"
                                       }`}
                                     style={{
                                       borderColor: color,
@@ -368,6 +368,7 @@ export default function App() {
               </p>
 
               <div className="mt-5 space-y-5">
+
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-800">
                     1. Safari 하단의 ··· 버튼을 눌러주세요
@@ -379,22 +380,35 @@ export default function App() {
 
                   <img
                     src="/install-step-1.png"
-                    alt="설치 메뉴 안내"
+                    alt="더보기 버튼 안내"
                     className="rounded-2xl border border-slate-200"
                   />
                 </div>
 
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-800">
-                    2. “홈 화면에 추가”를 선택해주세요
+                    2. 공유 버튼을 눌러주세요
                   </p>
 
                   <img
                     src="/install-step-2.png"
+                    alt="공유 버튼 안내"
+                    className="rounded-2xl border border-slate-200"
+                  />
+                </div>
+
+                <div>
+                  <p className="mb-2 text-sm font-semibold text-slate-800">
+                    3. “홈 화면에 추가”를 선택해주세요
+                  </p>
+
+                  <img
+                    src="/install-step-3.png"
                     alt="홈 화면 추가 안내"
                     className="rounded-2xl border border-slate-200"
                   />
                 </div>
+
               </div>
 
               <button
