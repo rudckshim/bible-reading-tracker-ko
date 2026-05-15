@@ -34,11 +34,9 @@ const BOOK_CHAPTERS = [
 function hslForBook(index) {
   const startHue = 8;
   const endHue = 275;
-
   const hue =
     startHue +
-    (endHue - startHue) *
-      (index / (BOOK_CHAPTERS.length - 1));
+    (endHue - startHue) * (index / (BOOK_CHAPTERS.length - 1));
 
   return `hsl(${hue} 78% 58%)`;
 }
@@ -49,9 +47,7 @@ function storageKey(bookIndex, chapter) {
 
 function getSavedChecks() {
   try {
-    return JSON.parse(
-      localStorage.getItem("bible-reading-checked") || "{}"
-    );
+    return JSON.parse(localStorage.getItem("bible-reading-checked") || "{}");
   } catch {
     return {};
   }
@@ -68,30 +64,37 @@ function getSavedSize() {
 export default function App() {
   useEffect(() => {
     if (Capacitor.getPlatform() !== "web") {
-      StatusBar.setOverlaysWebView({
-        overlay: false,
-      });
-
-      StatusBar.setStyle({
-        style: Style.Light,
-      });
-
-      StatusBar.setBackgroundColor({
-        color: "#f8fafc",
-      });
+      StatusBar.setOverlaysWebView({ overlay: false });
+      StatusBar.setStyle({ style: Style.Light });
+      StatusBar.setBackgroundColor({ color: "#f8fafc" });
     }
   }, []);
 
-  const [checked, setChecked] = useState(
-    getSavedChecks
-  );
+  const [checked, setChecked] = useState(getSavedChecks);
+  const [sizeMode, setSizeMode] = useState(getSavedSize);
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [isStandalone, setIsStandalone] = useState(false);
 
-  const [sizeMode, setSizeMode] = useState(
-    getSavedSize
-  );
+  useEffect(() => {
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
 
-  const columns =
-    sizeMode === "large" ? 7 : 10;
+    setIsStandalone(standalone);
+
+    const handler = (event) => {
+      event.preventDefault();
+      setInstallPrompt(event);
+    };
+
+    window.addEventListener("beforeinstallprompt", handler);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+    };
+  }, []);
+
+  const columns = sizeMode === "large" ? 7 : 10;
 
   const books = useMemo(
     () =>
@@ -103,28 +106,16 @@ export default function App() {
     []
   );
 
-  const totalChapters =
-    BOOK_CHAPTERS.reduce(
-      (sum, chapters) => sum + chapters,
-      0
-    );
-
-  const checkedCount =
-    Object.values(checked).filter(Boolean)
-      .length;
-
-  const progress = Math.round(
-    (checkedCount / totalChapters) * 100
+  const totalChapters = BOOK_CHAPTERS.reduce(
+    (sum, chapters) => sum + chapters,
+    0
   );
 
-  const toggleChapter = (
-    bookIndex,
-    chapter
-  ) => {
-    const key = storageKey(
-      bookIndex,
-      chapter
-    );
+  const checkedCount = Object.values(checked).filter(Boolean).length;
+  const progress = Math.round((checkedCount / totalChapters) * 100);
+
+  const toggleChapter = (bookIndex, chapter) => {
+    const key = storageKey(bookIndex, chapter);
 
     setChecked((prev) => {
       const next = {
@@ -132,10 +123,7 @@ export default function App() {
         [key]: !prev[key],
       };
 
-      localStorage.setItem(
-        "bible-reading-checked",
-        JSON.stringify(next)
-      );
+      localStorage.setItem("bible-reading-checked", JSON.stringify(next));
 
       return next;
     });
@@ -143,34 +131,59 @@ export default function App() {
 
   const changeSize = (mode) => {
     setSizeMode(mode);
+    localStorage.setItem("bible-reading-size", mode);
+  };
 
-    localStorage.setItem(
-      "bible-reading-size",
-      mode
-    );
+  const handleInstall = async () => {
+    const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+
+    if (isIOS) {
+      alert(
+        "아이폰에서는 Safari 하단 공유 버튼을 누른 뒤, '홈 화면에 추가'를 선택해주세요."
+      );
+      return;
+    }
+
+    if (!installPrompt) {
+      alert(
+        "설치 버튼이 보이지 않으면 Chrome 메뉴에서 '앱 설치' 또는 '홈 화면에 추가'를 선택해주세요."
+      );
+      return;
+    }
+
+    installPrompt.prompt();
+
+    const result = await installPrompt.userChoice;
+
+    if (result.outcome === "accepted") {
+      setInstallPrompt(null);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 px-3 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] text-slate-900 sm:px-4 sm:pb-4 sm:pt-[max(1rem,env(safe-area-inset-top))] md:px-8 md:pb-8 md:pt-[max(2rem,env(safe-area-inset-top))]">
-
       <div className="mx-auto max-w-7xl space-y-6">
-
         <header className="rounded-3xl bg-white p-4 shadow-sm sm:p-6 md:p-8">
-
           <div className="space-y-3">
-
             <div className="flex items-center justify-between gap-3">
-
               <p className="text-[clamp(0.82rem,3vw,1.15rem)] font-medium leading-none text-slate-500">
                 {TEXTS.appName}
               </p>
 
               <div className="flex items-center gap-2">
+                {!isStandalone && (
+                  <button
+                    type="button"
+                    onClick={handleInstall}
+                    className="rounded-2xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-600"
+                  >
+                    앱 설치
+                  </button>
+                )}
 
                 <button
-                  onClick={() =>
-                    changeSize("small")
-                  }
+                  type="button"
+                  onClick={() => changeSize("small")}
                   className={`rounded-2xl px-3 py-2 text-sm font-semibold transition ${
                     sizeMode === "small"
                       ? "bg-slate-800 text-white"
@@ -181,9 +194,8 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() =>
-                    changeSize("large")
-                  }
+                  type="button"
+                  onClick={() => changeSize("large")}
                   className={`rounded-2xl px-3 py-2 text-sm font-semibold transition ${
                     sizeMode === "large"
                       ? "bg-slate-800 text-white"
@@ -192,12 +204,10 @@ export default function App() {
                 >
                   크게
                 </button>
-
               </div>
             </div>
 
             <div className="text-left">
-
               <h1 className="text-[clamp(1.7rem,7vw,3rem)] font-bold leading-tight tracking-tight text-slate-900">
                 {TEXTS.title}
               </h1>
@@ -205,117 +215,70 @@ export default function App() {
               <p className="mt-2 text-sm text-slate-600 sm:text-base">
                 {TEXTS.description}
               </p>
-
             </div>
           </div>
 
           <div className="mt-6 space-y-2">
-
             <div className="flex items-center justify-between text-sm font-medium text-slate-600">
-
               <span>
                 {checkedCount} / {totalChapters}장 완료
               </span>
 
-              <span>
-                {progress}%
-              </span>
-
+              <span>{progress}%</span>
             </div>
 
             <div className="h-3 overflow-hidden rounded-full bg-slate-200">
-
               <motion.div
                 className="h-full rounded-full bg-gradient-to-r from-red-400 via-amber-400 via-emerald-400 via-sky-400 to-violet-500"
                 initial={false}
-                animate={{
-                  width: `${progress}%`,
-                }}
+                animate={{ width: `${progress}%` }}
                 transition={{
                   type: "spring",
                   stiffness: 80,
                   damping: 18,
                 }}
               />
-
             </div>
           </div>
         </header>
 
         <main className="space-y-4">
-
           {books.map((book) => {
+            const color = hslForBook(book.index);
 
-            const color = hslForBook(
-              book.index
-            );
-
-            const bookChecked =
-              Array.from(
-                {
-                  length: book.chapters,
-                },
-                (_, i) =>
-                  checked[
-                    storageKey(
-                      book.index,
-                      i + 1
-                    )
-                  ]
-              ).filter(Boolean).length;
+            const bookChecked = Array.from(
+              { length: book.chapters },
+              (_, i) => checked[storageKey(book.index, i + 1)]
+            ).filter(Boolean).length;
 
             return (
               <Card
                 key={book.index}
                 className="overflow-hidden rounded-3xl border-0 shadow-sm"
               >
-
                 <CardContent className="p-3 sm:p-4 md:p-6">
-
                   <div className="mb-4 flex flex-wrap items-center gap-3">
-
                     <div
                       className="h-4 w-4 rounded-full"
-                      style={{
-                        backgroundColor:
-                          color,
-                      }}
+                      style={{ backgroundColor: color }}
                     />
 
-                    <h2 className="text-xl font-bold">
-                      {book.name}
-                    </h2>
+                    <h2 className="text-xl font-bold">{book.name}</h2>
 
                     <span className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
-                      {bookChecked}/
-                      {book.chapters}
+                      {bookChecked}/{book.chapters}
                     </span>
-
                   </div>
 
                   <div className="flex flex-col gap-2">
-
                     {Array.from(
-                      {
-                        length: Math.ceil(
-                          book.chapters /
-                            columns
-                        ),
-                      },
+                      { length: Math.ceil(book.chapters / columns) },
                       (_, rowIndex) => {
-
-                        const start =
-                          rowIndex *
-                            columns +
-                          1;
-
-                        const end =
-                          Math.min(
-                            start +
-                              columns -
-                              1,
-                            book.chapters
-                          );
+                        const start = rowIndex * columns + 1;
+                        const end = Math.min(
+                          start + columns - 1,
+                          book.chapters
+                        );
 
                         return (
                           <div
@@ -325,102 +288,60 @@ export default function App() {
                               gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
                             }}
                           >
-
                             {Array.from(
-                              {
-                                length:
-                                  end -
-                                  start +
-                                  1,
-                              },
+                              { length: end - start + 1 },
                               (_, i) => {
-
-                                const chapter =
-                                  start +
-                                  i;
-
-                                const key =
-                                  storageKey(
-                                    book.index,
-                                    chapter
-                                  );
-
-                                const isChecked =
-                                  !!checked[
-                                    key
-                                  ];
+                                const chapter = start + i;
+                                const key = storageKey(book.index, chapter);
+                                const isChecked = !!checked[key];
 
                                 return (
                                   <motion.button
-                                    key={
-                                      key
-                                    }
+                                    key={key}
                                     type="button"
-                                    whileTap={{
-                                      scale: 0.9,
-                                    }}
+                                    whileTap={{ scale: 0.9 }}
                                     onClick={() =>
-                                      toggleChapter(
-                                        book.index,
-                                        chapter
-                                      )
+                                      toggleChapter(book.index, chapter)
                                     }
                                     className={`relative flex aspect-square w-full items-center justify-center rounded-full border-[clamp(1px,0.45vw,2px)] font-bold transition ${
                                       sizeMode === "large"
-                                      ? "text-[clamp(0.95rem,4vw,1.4rem)]"
-                                      : "text-[clamp(0.62rem,2.9vw,0.95rem)]"
+                                        ? "text-[clamp(0.95rem,4vw,1.4rem)]"
+                                        : "text-[clamp(0.62rem,2.9vw,0.95rem)]"
                                     }`}
                                     style={{
-                                      borderColor:
-                                        color,
-                                      backgroundColor:
-                                        isChecked
-                                          ? color
-                                          : "white",
-                                      color:
-                                        isChecked
-                                          ? "white"
-                                          : color,
-                                      boxShadow:
-                                        isChecked
-                                          ? `0 8px 18px ${color}33`
-                                          : "none",
+                                      borderColor: color,
+                                      backgroundColor: isChecked
+                                        ? color
+                                        : "white",
+                                      color: isChecked ? "white" : color,
+                                      boxShadow: isChecked
+                                        ? `0 8px 18px ${color}33`
+                                        : "none",
                                     }}
                                   >
-
                                     {isChecked && (
                                       <CheckCircle2 className="absolute h-5 w-5 opacity-20" />
                                     )}
 
-                                    <span>
-                                      {
-                                        chapter
-                                      }
-                                    </span>
-
+                                    <span>{chapter}</span>
                                   </motion.button>
                                 );
                               }
                             )}
-
                           </div>
                         );
                       }
                     )}
-
                   </div>
                 </CardContent>
               </Card>
             );
           })}
-
         </main>
 
         <footer className="pb-6 pt-2 text-center text-sm text-slate-400">
-
           <p>
             Made by Rudckshim ·{" "}
-
             <a
               href="https://github.com/rudckshim"
               target="_blank"
@@ -429,11 +350,8 @@ export default function App() {
             >
               GitHub
             </a>
-
           </p>
-
         </footer>
-
       </div>
     </div>
   );
