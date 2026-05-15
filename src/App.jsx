@@ -371,13 +371,13 @@ export default function App() {
 
                 <div>
                   <p className="mb-2 flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-800">
-                    1. 공유 버튼
+                    1. "
                     <img
                       src="https://help.apple.com/assets/69F8EBBDF3B89A4F6E0C704C/69F8EBC43862495245036393/en_US/d26fe35d3438fe81179a80c2b6c9b0c9.png"
                       alt="공유 버튼"
                       className="h-5 w-auto"
                     />
-                    을 눌러주세요
+                    공유 버튼"을 눌러주세요
                   </p>
 
                   <p className="text-xs leading-relaxed text-slate-500">
