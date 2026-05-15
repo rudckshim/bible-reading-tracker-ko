@@ -73,7 +73,12 @@ export default function App() {
   const [checked, setChecked] = useState(getSavedChecks);
   const [sizeMode, setSizeMode] = useState(getSavedSize);
   const [installPrompt, setInstallPrompt] = useState(null);
-  const [isStandalone, setIsStandalone] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(() => {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    );
+  });
 
   useEffect(() => {
     const standalone =
