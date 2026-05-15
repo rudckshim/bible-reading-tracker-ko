@@ -61,6 +61,17 @@ function getSavedSize() {
   }
 }
 
+function getInitialStandalone() {
+  try {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    );
+  } catch {
+    return false;
+  }
+}
+
 export default function App() {
   useEffect(() => {
     if (Capacitor.getPlatform() !== "web") {
@@ -73,19 +84,11 @@ export default function App() {
   const [checked, setChecked] = useState(getSavedChecks);
   const [sizeMode, setSizeMode] = useState(getSavedSize);
   const [installPrompt, setInstallPrompt] = useState(null);
-  const [isStandalone, setIsStandalone] = useState(() => {
-    return (
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true
-    );
-  });
+  const [isStandalone, setIsStandalone] = useState(getInitialStandalone);
+  const [showInstallGuide, setShowInstallGuide] = useState(false);
 
   useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
-
-    setIsStandalone(standalone);
+    setIsStandalone(getInitialStandalone());
 
     const handler = (event) => {
       event.preventDefault();
@@ -149,7 +152,7 @@ export default function App() {
 
     if (!installPrompt) {
       alert(
-        "설치 버튼이 보이지 않으면 Chrome 메뉴에서 '앱 설치' 또는 '홈 화면에 추가'를 선택해주세요."
+        "Chrome 메뉴에서 '앱 설치' 또는 '홈 화면에 추가'를 선택해주세요."
       );
       return;
     }
@@ -355,56 +358,51 @@ export default function App() {
             </a>
           </p>
         </footer>
+
         {showInstallGuide && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          
             <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
-                
               <h2 className="text-xl font-bold text-slate-900">
                 아이폰 앱 설치 방법
               </h2>
-                
+
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
                 아래 순서대로 진행하면 홈 화면에서 앱처럼 사용할 수 있어요.
               </p>
-                
+
               <div className="mt-5 space-y-5">
-                
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-800">
                     1. Safari 하단의 공유 버튼을 눌러주세요
                   </p>
-                
+
                   <img
                     src="/install-step-1.png"
                     alt="공유 버튼 안내"
                     className="rounded-2xl border border-slate-200"
                   />
                 </div>
-                
+
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-800">
                     2. “홈 화면에 추가”를 선택해주세요
                   </p>
-                
+
                   <img
                     src="/install-step-2.png"
                     alt="홈 화면 추가 안내"
                     className="rounded-2xl border border-slate-200"
                   />
                 </div>
-                
               </div>
-                
+
               <button
-                onClick={() =>
-                  setShowInstallGuide(false)
-                }
+                type="button"
+                onClick={() => setShowInstallGuide(false)}
                 className="mt-6 w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
               >
                 확인
               </button>
-              
             </div>
           </div>
         )}
