@@ -9,11 +9,11 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "성경일독 체크표",
-        short_name: "성경일독 체크표",
-        description: "성경일독을 장별로 체크하세요.",
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
+        name: "성경 일독 체크표",
+        short_name: "성경일독체크표",
+        description: "성경 일독을 장별로 체크하세요.",
+        theme_color: "#f8fafc",
+        background_color: "#f8fafc",
         display: "standalone",
         start_url: "/",
         icons: [
