@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">bible-reading-tracker</string>
+    <string name="title_activity_main">bible-reading-tracker</string>
+    <string name="package_name">com.rudckshim.biblereadingtracker</string>
+    <string name="custom_url_scheme">com.rudckshim.biblereadingtracker</string>
+</resources>
