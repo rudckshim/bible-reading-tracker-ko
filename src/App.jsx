@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { StatusBar, Style } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
@@ -399,7 +399,12 @@ export default function App() {
                   </p>
 
                   <p className="mb-3 text-xs text-slate-500">
-                    바로 보이지 않으면 “더 보기 ⌄”를 눌러주세요.
+                    바로 보이지 않으면{" "}
+                    <span className="inline-flex items-center gap-0.5 rounded-md bg-slate-100 px-1.5 py-0.5 font-medium text-slate-700">
+                      더 보기
+                      <ChevronDown className="h-3 w-3" />
+                    </span>
+                    를 눌러주세요.
                   </p>
 
                   <img
