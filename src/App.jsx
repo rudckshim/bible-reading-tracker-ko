@@ -398,12 +398,15 @@ export default function App() {
                     3. 아래로 스크롤한 뒤 “홈 화면에 추가”를 선택해주세요
                   </p>
 
-                  <p className="mb-3 text-xs text-slate-500">
-                    바로 보이지 않으면{" "}
-                    <span className="inline-flex items-center gap-0.5 rounded-md bg-slate-100 px-1.5 py-0.5 font-medium text-slate-700">
-                      더 보기
-                      <ChevronDown className="h-3 w-3" />
-                    </span>
+                  <p className="mb-3 flex items-center gap-1 text-xs text-slate-500">
+                    바로 보이지 않으면 더 보기
+
+                    <img
+                      src="/more-button.png"
+                      alt="더 보기 버튼"
+                      className="h-5 w-5 rounded-full"
+                    />
+
                     를 눌러주세요.
                   </p>
 
