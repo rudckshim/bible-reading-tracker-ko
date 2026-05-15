@@ -371,16 +371,12 @@ export default function App() {
 
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-800">
-                    1. Safari 하단의 ··· 버튼을 눌러주세요
-                  </p>
-
-                  <p className="mb-3 text-xs text-slate-500">
-                    버튼이 안 보이면 화면을 살짝 아래로 스크롤해보세요.
+                    1. Safari 하단의 ⋯ 더 보기 버튼을 눌러주세요
                   </p>
 
                   <img
                     src="/install-step-1.png"
-                    alt="더보기 버튼 안내"
+                    alt="더 보기 버튼 안내"
                     className="rounded-2xl border border-slate-200"
                   />
                 </div>
@@ -399,7 +395,11 @@ export default function App() {
 
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-800">
-                    3. “홈 화면에 추가”를 선택해주세요
+                    3. 아래로 스크롤한 뒤 “홈 화면에 추가”를 선택해주세요
+                  </p>
+
+                  <p className="mb-3 text-xs text-slate-500">
+                    바로 보이지 않으면 “더 보기 ⌄”를 눌러주세요.
                   </p>
 
                   <img
