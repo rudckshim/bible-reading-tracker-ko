@@ -365,7 +365,11 @@ export default function App() {
                                         chapter
                                       )
                                     }
-                                    className="relative flex aspect-square w-full items-center justify-center rounded-full border-[clamp(1px,0.45vw,2px)] text-[clamp(0.62rem,2.9vw,0.95rem)] font-bold transition"
+                                    className={`relative flex aspect-square w-full items-center justify-center rounded-full border-[clamp(1px,0.45vw,2px)] font-bold transition ${
+                                      sizeMode === "large"
+                                      ? "text-[clamp(0.95rem,4vw,1.4rem)]"
+                                      : "text-[clamp(0.62rem,2.9vw,0.95rem)]"
+                                    }`}
                                     style={{
                                       borderColor:
                                         color,
