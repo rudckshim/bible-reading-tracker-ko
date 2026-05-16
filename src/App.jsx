@@ -371,37 +371,54 @@ export default function App() {
 
                 <div>
                   <p className="mb-2 flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-800">
-                    1. "
+                    1. 공유 버튼
+
                     <img
-                      src="https://help.apple.com/assets/69F8EBBDF3B89A4F6E0C704C/69F8EBC43862495245036393/en_US/d26fe35d3438fe81179a80c2b6c9b0c9.png"
+                      src="/share.png"
                       alt="공유 버튼"
-                      className="h-5 w-auto"
+                      className="h-5 w-5"
                     />
-                    공유 버튼"을 눌러주세요
+
+                    을 눌러주세요
                   </p>
 
                   <p className="text-xs leading-relaxed text-slate-500">
                     공유 버튼이 보이지 않으면
-                    {" "}
+
                     <img
-                      src="https://help.apple.com/assets/69F8EBBDF3B89A4F6E0C704C/69F8EBC43862495245036393/en_US/06e015c4e2efbb35dc5002169cd64c33.png"
+                      src="/more.png"
                       alt="더 보기 버튼"
                       className="mx-1 inline h-5 w-5"
                     />
+
                     버튼을 먼저 눌러주세요.
                   </p>
                 </div>
 
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-slate-800">
-                    2. 아래로 스크롤한 뒤 “홈 화면에 추가”를 선택해주세요
+                  <p className="mb-2 flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-800">
+                    2. “홈 화면에 추가”
+
+                    <img
+                      src="/add.png"
+                      alt="홈 화면 추가 아이콘"
+                      className="h-5 w-5"
+                    />
+
+                    를 선택해주세요
                   </p>
 
-                  <img
-                    src="/install-step-3.png"
-                    alt="홈 화면 추가 안내"
-                    className="rounded-2xl border border-slate-200"
-                  />
+                  <p className="mb-3 text-xs leading-relaxed text-slate-500">
+                    바로 보이지 않으면
+
+                    <img
+                      src="/expand.png"
+                      alt="펼치기 버튼"
+                      className="mx-1 inline h-4 w-4"
+                    />
+
+                    버튼을 눌러 더 많은 항목을 확인해주세요.
+                  </p>
                 </div>
 
               </div>
