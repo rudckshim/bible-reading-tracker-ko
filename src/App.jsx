@@ -7,7 +7,7 @@ import { Capacitor } from "@capacitor/core";
 
 const TEXTS = {
   appName: "경배와 찬양을 주님께",
-  title: "성경 일독 체크표",
+  title: "성경일독 체크표",
   description: "각 장을 누르면 색칠됩니다.",
 };
 
