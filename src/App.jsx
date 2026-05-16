@@ -120,7 +120,10 @@ export default function App() {
   );
 
   const checkedCount = Object.values(checked).filter(Boolean).length;
-  const progress = Math.round((checkedCount / totalChapters) * 100);
+  const progress = (
+    (checkedCount / totalChapters) *
+    100
+  ).toFixed(2);
 
   const toggleChapter = (bookIndex, chapter) => {
     const key = storageKey(bookIndex, chapter);
