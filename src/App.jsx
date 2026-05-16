@@ -374,21 +374,21 @@ export default function App() {
                     1. 공유 버튼
 
                     <img
-                      src="/share.png"
+                      src="/icons/share.png"
                       alt="공유 버튼"
-                      className="h-5 w-5"
+                      className="h-5 w-auto"
                     />
 
-                    을 눌러주세요
+                    을 눌러주세요.
                   </p>
 
-                  <p className="text-xs leading-relaxed text-slate-500">
+                  <p className="flex flex-wrap items-center gap-1 text-xs leading-relaxed text-slate-500">
                     공유 버튼이 보이지 않으면
 
                     <img
-                      src="/more.png"
+                      src="/icons/more.png"
                       alt="더 보기 버튼"
-                      className="mx-1 inline h-5 w-5"
+                      className="inline h-5 w-5"
                     />
 
                     버튼을 먼저 눌러주세요.
@@ -400,25 +400,26 @@ export default function App() {
                     2. “홈 화면에 추가”
 
                     <img
-                      src="/add.png"
+                      src="/icons/add.png"
                       alt="홈 화면 추가 아이콘"
                       className="h-5 w-5"
                     />
 
-                    를 선택해주세요
+                    를 선택해주세요.
                   </p>
 
-                  <p className="mb-3 text-xs leading-relaxed text-slate-500">
+                  <p className="mb-3 flex flex-wrap items-center gap-1 text-xs leading-relaxed text-slate-500">
                     바로 보이지 않으면
 
                     <img
-                      src="/expand.png"
+                      src="/icons/expand.png"
                       alt="펼치기 버튼"
-                      className="mx-1 inline h-4 w-4"
+                      className="inline h-5 w-5 align-middle"
                     />
 
                     버튼을 눌러 더 많은 항목을 확인해주세요.
                   </p>
+
                 </div>
 
               </div>
