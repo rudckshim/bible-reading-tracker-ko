@@ -397,7 +397,7 @@ export default function App() {
 
                 <div>
                   <p className="mb-2 flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-800">
-                    2. “홈 화면에 추가”
+                    2. 홈 화면에 추가
 
                     <img
                       src="/icons/add.png"
